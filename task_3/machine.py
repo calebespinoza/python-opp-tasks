@@ -20,7 +20,7 @@ class Machine:
         self.__car.print_all_cars()
 
     def register_exit (self, car_id, time_out):
-        self.time_out = datetime.strptime(time_out, self.__FMT)
+        self.__car.set_time_out(car_id, time_out)
 
     ## TIMER
 
@@ -59,6 +59,7 @@ machine = Machine()
 machine.register_entrance(12345, "1:39:00")
 machine.register_entrance(12346, "14:02:55")
 machine.register_entrance(12347, "00:58:37")
+machine.register_exit(12346, "15:33:48")
 machine.print_list_cars()
 #machine.register_exit(12345, "1:53:10")
 #machine.get_fare()
