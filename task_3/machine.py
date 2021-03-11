@@ -1,27 +1,40 @@
 from datetime import datetime
+from car import Car
 import time
 
 class Machine:
+    __FMT = '%H:%M:%S'
+
     def __init__(self):
         self.car_id = ""
         self.time_in = ""
         self.time_out = ""
         self.fare = ""
         self.ticket_status = "Unpaid"
-    
+        self.__car = Car()
+        
     def register_entrance (self, car_id, time_in):
-        self.car_id = car_id
-        self.time_in = time_in
+        self.__car.register_car(car_id, time_in)
+
+    def print_list_cars(self):
+        self.__car.print_all_cars()
 
     def register_exit (self, car_id, time_out):
-        self.time_out = time_out
+        self.time_out = datetime.strptime(time_out, self.__FMT)
+
+    ## TIMER
 
     def calculate_time(self):
-        FMT = '%H:%M:%S'
-        return datetime.strptime(self.time_out, FMT) - datetime.strptime(self.time_in, FMT)
+        #return datetime.strptime(self.time_out, FMT) - datetime.strptime(self.time_in, FMT)
+        return self.time_out - self.time_in
 
     def get_fare (self):
-        print (self.calculate_time())
+        time_delta = self.calculate_time()
+        minutes = time_delta.total_seconds() / 60
+        print (time_delta)
+        print (minutes)
+
+    ## TIMER
     
     def register_payment(self):
         self.ticket_status = "Paid"
@@ -43,7 +56,10 @@ class Machine:
         print(st)
 
 machine = Machine()
-machine.register_entrance(12345, "01:21:10")
-machine.register_exit(12345, "01:53:02")
-machine.get_fare()
+machine.register_entrance(12345, "1:39:00")
+machine.register_entrance(12346, "14:02:55")
+machine.register_entrance(12347, "00:58:37")
+machine.print_list_cars()
+#machine.register_exit(12345, "1:53:10")
+#machine.get_fare()
 #machine.print_car_id()
