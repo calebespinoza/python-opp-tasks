@@ -2,9 +2,6 @@
 class Ticket:
 
     def __init__(self):
-        self.car_id = 0
-        self.time_in = ""
-        self.time_exit = ""
         self.ticket = {}
         self.list_tickets = []
     
@@ -16,7 +13,7 @@ class Ticket:
         return self.list_tickets
     
     def search_ticket(self, car_id):
-        for item in self.list_tickets:
+        for item in self.get_all_tickets():
             if item.get("id") == car_id:
                 return item
     
@@ -35,9 +32,10 @@ class Ticket:
     def get_time_exit(self, ticket):
         return ticket["time_exit"]
     
+    def get_cost(self, ticket):
+        return ticket["cost"]
+    
     def print_all_tickets(self):
         for obj in self.get_all_tickets():
             print(obj.values())
     
-    def print_ticket(self):
-        pass

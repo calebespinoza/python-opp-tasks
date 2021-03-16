@@ -22,22 +22,39 @@ class Machine:
     def payment(self, car_id, time_exit):
         ticket = self.__ticket.search_ticket(car_id)
         if (ticket == None):
-            return "Unregistered vehicle"
+            return """
+            ----------------------------
+            Unregistered vehicle {}
+            ----------------------------
+            """.format(car_id)
         else:
             self.register_exit(ticket, time_exit)
             self.__payment.register_payment(ticket, self.__ticket)
-            return True
+            return self.print_ticket(ticket)
 
-    def print_ticket(self):
-        pass
-    
+    def print_ticket(self, ticket):
+        today = self.__timer.get_date_today()
+        text = """
+            ----------------------------
+                    PAID PARKING        
+            ----------------------------
+            Date: {0}
+            From: {1}
+            To: {2}
+            Paid: Bs. {3}
+            ----------------------------
+            Thank you and lucky road!
+            ----------------------------
+            """.format(today, self.__ticket.get_time_in(ticket), self.__ticket.get_time_exit(ticket), self.__ticket.get_cost(ticket))
+        return text
 
-machine = Machine()
-machine.register_entrance(12345, "1:39:00")
-machine.register_entrance(12346, "14:02:55")
-machine.register_entrance(12347, "00:58:37")
+#machine = Machine()
+#machine.register_entrance(12345, "1:39:00")
+#machine.register_entrance(12346, "14:02:55")
+#machine.register_entrance(12347, "00:58:37")
 #machine.register_exit(12346, "15:33:48")
 #machine.register_exit(12346, "14:31:48")
 #machine.print_list_cars()
-print(machine.payment(12346, "15:33:48"))
-machine.print_list_cars()
+#print(machine.payment(12346, "15:33:48"))
+#machine.print_list_cars()
+#machine.print_ticket()

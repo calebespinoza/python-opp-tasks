@@ -9,3 +9,5 @@ class Timer:
         delta = datetime.strptime(time_exit, self.__FMT) - datetime.strptime(time_in, self.__FMT)
         return delta.total_seconds() / 60
     
+    def get_date_today(self):
+        return datetime.today().strftime('%d-%m-%Y')
