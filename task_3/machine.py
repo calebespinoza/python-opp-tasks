@@ -4,37 +4,64 @@ from timer import Timer
 from payment import Payment
 
 class Machine:
-
+    """This class offers funcionalities to register the entrance, exit and payments when someone wants to park a vehicle.
+    """
+    
     def __init__(self):
+        """Machine constructor
+        """
         self.__ticket = Ticket()
         self.__timer = Timer()
         self.__payment = Payment(0.233333333)
         
     def register_entrance (self, car_id, time_in):
+        """This function calls the register_ticket function to create a new ticket
+    
+        Args:
+            car_id (int): This is the ID of each vehicle (Placa).
+            time_in (string): This is the time when the vehicle enter to the parking.
+        """
         self.__ticket.register_ticket(car_id, time_in)
-
+    
     def register_exit (self, ticket, time_exit):
+        """This function register the time when a vehicle is leaving the parking
+    
+        Args:
+            ticket (dictionary): This argument contains the info of the vehicle.
+            time_exit (string): This argument is the time when the vehicle is leaving.
+        """
         self.__ticket.set_time_exit(ticket, time_exit)
     
     def print_list_cars(self):
+        """This functions prints all tickets created.
+        """
         self.__ticket.print_all_tickets()
     
     def payment(self, car_id, time_exit):
+        """This function calls to the register_exit, payment and print_ticket functions
+        """
         ticket = self.__ticket.search_ticket(car_id)
         if (ticket == None):
-            return """
-            ----------------------------
-            Unregistered vehicle {}
-            ----------------------------
-            """.format(car_id)
+            self.print_ticket(ticket)
         else:
             self.register_exit(ticket, time_exit)
             self.__payment.register_payment(ticket, self.__ticket)
-            return self.print_ticket(ticket)
+            self.print_ticket(ticket)
 
     def print_ticket(self, ticket):
-        today = self.__timer.get_date_today()
-        text = """
+        """This function prints two differente tickets
+        When not registered it prints: Unregistered Vehicle
+        if exists, it prints the ticket in detail.
+        """
+        if (ticket == None):
+            text = """
+            ----------------------------
+                Unregistered vehicle
+            ----------------------------
+            """
+        else:
+            today = self.__timer.get_date_today()
+            text = """
             ----------------------------
                     PAID PARKING        
             ----------------------------
@@ -46,15 +73,4 @@ class Machine:
             Thank you and lucky road!
             ----------------------------
             """.format(today, self.__ticket.get_time_in(ticket), self.__ticket.get_time_exit(ticket), self.__ticket.get_cost(ticket))
-        return text
-
-#machine = Machine()
-#machine.register_entrance(12345, "1:39:00")
-#machine.register_entrance(12346, "14:02:55")
-#machine.register_entrance(12347, "00:58:37")
-#machine.register_exit(12346, "15:33:48")
-#machine.register_exit(12346, "14:31:48")
-#machine.print_list_cars()
-#print(machine.payment(12346, "15:33:48"))
-#machine.print_list_cars()
-#machine.print_ticket()
+        print(text)
