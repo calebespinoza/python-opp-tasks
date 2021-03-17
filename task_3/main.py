@@ -1,7 +1,6 @@
 from machine import Machine
 
-    """This file contains the steps sequence in order to run the machine.
-    """
+"""This file contains the steps sequence in order to run the machine."""
 m = Machine()
 m.register_entrance(12345, "1:39:00")
 m.register_entrance(12346, "14:02:55")
